@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up · Career Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="mobile-topbar"><span class="dot"></span> CareerPath</div>
+    <div class="auth-side">
+      <div class="brand-mark"><span class="dot"></span> CareerPath</div>
+      <h1>Your roadmap to the right career starts with one account.</h1>
+      <p class="tagline">Assessments, AI mentorship, interview prep and a voice confidence analyzer — all in one place.</p>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span> Create your account</div>
+        <div class="step"><span class="num">2</span> Verify your email</div>
+        <div class="step"><span class="num">3</span> Start your career assessment</div>
+      </div>
+    </div>
+
+    <div class="auth-form-side">
+      <div class="auth-card">
+        <h2>Create your account</h2>
+        <p class="sub">It only takes a minute.</p>
+
+        <div class="alert" id="alertBox"></div>
+
+        <form id="signupForm">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" placeholder="Your full name" required />
+          </div>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+
+         <!-- <div class="field">
+  <label for="goal">Career field</label>
+  <select id="goal" name="goal" style="width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:var(--font-body); background:var(--purple-50);">
+    <option value="">Select a field</option>
+    <option value="Web Development">Web Development</option>
+    <option value="AI & Machine Learning">AI & Machine Learning</option>
+    <option value="Data Science">Data Science</option>
+    <option value="Cyber Security">Cyber Security</option>
+    <option value="Cloud & DevOps">Cloud & DevOps</option>
+    <option value="Mobile App Development">Mobile App Development</option>
+    <option value="Software Engineering">Software Engineering</option>
+    <option value="UI/UX Design">UI/UX Design</option>
+    <option value="Graphic Design">Graphic Design</option>
+    <option value="Digital Marketing">Digital Marketing</option>
+    <option value="Game Development">Game Development</option>
+  </select>
+</div> -->
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" name="password" placeholder="Create a strong password" required />
+              <span class="toggle-eye" onclick="togglePwd('password')">SHOW</span>
+            </div>
+            <div class="strength-meter" id="strengthBars">
+              <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+            <div class="strength-label" id="strengthLabel"></div>
+            <div class="hint">Min 8 characters, with uppercase, lowercase, number & symbol.</div>
+          </div>
+
+          <div class="field">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="password-wrap">
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required />
+              <span class="toggle-eye" onclick="togglePwd('confirmPassword')">SHOW</span>
+            </div>
+            <div class="error-text" id="matchError">Passwords do not match</div>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitBtn">Create Account</button>
+        </form>
+
+        <p class="footer-link">Already have an account? <a href="index.html">Log in</a></p>
+      </div>
+    </div>
+  </div>
+
+<script src="js/api.js"></script>
+<script>
+function togglePwd(id) {
+  const input = document.getElementById(id);
+  const eye = input.parentElement.querySelector(".toggle-eye");
+  if (input.type === "password") { input.type = "text"; eye.textContent = "HIDE"; }
+  else { input.type = "password"; eye.textContent = "SHOW"; }
+}
+
+document.getElementById("password").addEventListener("input", (e) => {
+  renderStrength("strengthBars", "strengthLabel", e.target.value);
+});
+
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  hideAlert("alertBox");
+
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  document.getElementById("matchError").style.display = "none";
+
+  if (password !== confirmPassword) {
+    document.getElementById("matchError").style.display = "block";
+    return;
+  }
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true; btn.textContent = "Creating account...";
+
+  const payload = {
+    name: document.getElementById("name").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    goal: document.getElementById("goal") ? document.getElementById("goal").value.trim() : "",
+  password,
+  };
+
+  const result = await apiPost("/signup", payload);
+  btn.disabled = false; btn.textContent = "Create Account";
+
+  if (result.success) {
+    showAlert("alertBox", result.message, "success");
+    document.getElementById("signupForm").reset();
+  } else {
+    showAlert("alertBox", result.message || "Signup failed", "error");
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log In · Career Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-modal">
+    <div class="welcome-icon">CP</div>
+    <h2>Welcome to CareerPath AI</h2>
+    <p>CareerPath AI is a modern career guidance platform designed for students and professionals who are interested in digital and technology-related career paths.</p>
+    <button onclick="document.getElementById('welcomeOverlay').remove()">Get Started</button>
+  </div>
+</div>
+  <div class="auth-wrapper">
+    <div class="mobile-topbar"><span class="dot"></span> CareerPath</div>
+    <div class="auth-side">
+      <div class="brand-mark"><span class="dot"></span> CareerPath</div>
+      <h1>Plan your career with clarity, not guesswork.</h1>
+      <p class="tagline">Log in to continue your roadmap, mock interviews, and AI mentor sessions exactly where you left off.</p>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span> Secure, encrypted login</div>
+        <div class="step"><span class="num">2</span> Your roadmap, saved & synced</div>
+        <div class="step"><span class="num">3</span> Resume your weekly quiz anytime</div>
+      </div>
+    </div>
+
+    <div class="auth-form-side">
+      <div class="auth-card">
+        <h2>Welcome back</h2>
+        <p class="sub">Log in to your account to continue.</p>
+
+        <div class="alert" id="alertBox"></div>
+
+        <form id="loginForm">
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" name="password" placeholder="Your password" required />
+              <span class="toggle-eye" onclick="togglePwd()">SHOW</span>
+            </div>
+          </div>
+
+          <div class="row-between">
+            <span></span>
+            <a href="forgot-password.html">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitBtn">Log In</button>
+        </form>
+
+        <p class="footer-link">Don't have an account? <a href="signup.html">Sign up</a></p>
+      </div>
+    </div>
+  </div>
+
+<script src="js/api.js"></script>
+<script>
+function togglePwd() {
+  const input = document.getElementById("password");
+  const eye = document.querySelector(".toggle-eye");
+  if (input.type === "password") { input.type = "text"; eye.textContent = "HIDE"; }
+  else { input.type = "password"; eye.textContent = "SHOW"; }
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  hideAlert("alertBox");
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true; btn.textContent = "Logging in...";
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const result = await apiPost("/login", { email, password });
+
+  btn.disabled = false; btn.textContent = "Log In";
+
+  if (result.success) {
+    showAlert("alertBox", "Login successful! Redirecting...", "success");
+    setTimeout(() => (window.location.href = "profile.html"), 800);
+  } else {
+    showAlert("alertBox", result.message || "Login failed", "error");
+  }
+});
+</script>
+</body>
+</html>
