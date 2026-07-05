@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard · Career Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/assessment-additions.css" />
+<link rel="stylesheet" href="css/vca_new.css" />
+<link rel="stylesheet" href="css/mentor-new.css" />
+<link rel="stylesheet" href="css/interview.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="topbar">
+      <div class="brand-mark"><span class="dot"></span> CareerPath</div>
+      <div class="nav-links">
+        <a href="profile.html">Profile</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Log Out</button>
+    </div>
+
+    <div class="dashboard-shell">
+      <!-- Left sidebar -->
+      <div class="dash-sidebar">
+        <div class="dash-nav-item active" data-panel="assessment">
+          <span class="icon">🎯</span> Career Assessment
+        </div>
+        <div class="dash-nav-item" data-panel="mentor">
+          <span class="icon">🤖</span> AI Mentor
+        </div>
+        <div class="dash-nav-item" data-panel="interview">
+          <span class="icon">💼</span> Interview Preparation
+        </div>
+        <div class="dash-nav-item" data-panel="voice">
+          <span class="icon">🎙️</span> Voice Confidence Analyzer
+        </div>
+      </div>
+
+      <!-- Right main content -->
+      <div class="dash-main">
+
+        <!-- ==================== PANEL 1: CAREER ASSESSMENT ==================== -->
+        <div class="dash-panel active" id="panel-assessment">
+
+          <!-- VIEW: Landing -->
+          <div class="av-view active" id="av-landing">
+            <div class="dash-hero">
+              <h2>Career Assessment</h2>
+              <p>Tell us your skills, interests, and goals — we'll suggest the right career path for you, then build a personalized roadmap.</p>
+            </div>
+            <div class="av-choice-grid">
+              <div class="av-choice-card" onclick="avChoose(1)">
+                <div class="av-emoji">🧭</div>
+                <h3>I Need Career Guidance</h3>
+                <p>Tell us your interests and we'll recommend the best career path for you.</p>
+              </div>
+              <div class="av-choice-card" onclick="avChoose(2)">
+                <div class="av-emoji">🎯</div>
+                <h3>I Already Know My Career Path</h3>
+                <p>Jump straight to your personalized roadmap and resources.</p>
+              </div>
+            </div>
+
+            <!-- 3 locked cards -->
+            <div class="dash-grid" style="margin-top:32px;">
+              <div class="dash-mini-card locked" data-feature="roadmap" onclick="avOpenRoadmap()">
+                <div class="mini-icon">🗺️</div>
+                <h4>Roadmap Generator</h4>
+                <p>A realistic, weekly learning plan based on your pace and capability.</p>
+                <span class="mini-arrow">→</span>
+              </div>
+              <div class="dash-mini-card locked" data-feature="resources" onclick="avOpenResources()">
+                <div class="mini-icon">📚</div>
+                <h4>Learning Resources</h4>
+                <p>Curated YouTube channels, official docs, and practice platforms.</p>
+                <span class="mini-arrow">→</span>
+              </div>
+              <div class="dash-mini-card locked" data-feature="quiz" onclick="avOpenQuizHub()">
+                <div class="mini-icon">📝</div>
+                <h4>Weekly Quiz System</h4>
+                <p>Test your progress weekly with scored quizzes and weak-area feedback.</p>
+                <span class="mini-arrow">→</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: Option 1 — Guidance Form -->
+          <div class="av-view" id="av-form-guidance">
+            <div class="av-form-card">
+              <div class="av-back-link" onclick="avShowView('av-landing')">← Back</div>
+              <h3 style="font-family:var(--font-display);color:var(--purple-900);margin:0 0 4px;">Career Guidance Assessment</h3>
+              <p style="color:var(--text-muted);font-size:13.5px;margin:0 0 8px;">Fill in your details for a personalized recommendation.</p>
+
+              <div class="av-section-label">Personal Information</div>
+              <div class="av-row">
+                <div class="field">
+                  <label>Age</label>
+                  <input type="number" id="guidanceAge" placeholder="e.g. 20" min="14" max="60" />
+                </div>
+                <div class="field">
+                  <label>Education Level</label>
+                  <select id="guidanceEdu" onchange="avToggleSemester()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--purple-50);">
+                    <option value="">Select</option>
+                    <option>Matric</option>
+                    <option>Intermediate</option>
+                    <option>Bachelor's</option>
+                    <option>Self-Learner</option>
+                  </select>
+                </div>
+                <div class="field" id="semesterField" style="display:none;">
+                  <label>Current Semester</label>
+                  <select id="guidanceSemester" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--purple-50);">
+                    <option value="">Select</option>
+                    <option>Semester 1</option><option>Semester 2</option>
+                    <option>Semester 3</option><option>Semester 4</option>
+                    <option>Semester 5</option><option>Semester 6</option>
+                    <option>Semester 7</option><option>Semester 8</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="av-section-label">Interests</div>
+              <div class="av-chip-group" id="guidanceInterests">
+                <div class="av-chip" data-value="Coding">Coding</div>
+                <div class="av-chip" data-value="Design">Design</div>
+                <div class="av-chip" data-value="Data Analysis">Data Analysis</div>
+                <div class="av-chip" data-value="Problem Solving">Problem Solving</div>
+                <div class="av-chip" data-value="Mathematics">Mathematics</div>
+                <div class="av-chip" data-value="Networking">Networking</div>
+                <div class="av-chip" data-value="Artificial Intelligence">Artificial Intelligence</div>
+                <div class="av-chip" data-value="Writing">Writing</div>
+                <div class="av-chip" data-value="Marketing">Marketing</div>
+                <div class="av-chip" data-value="Research">Research</div>
+                <div class="av-chip" data-value="Creativity">Creativity</div>
+                <div class="av-chip" data-value="Gaming">Gaming</div>
+              </div>
+
+              <div class="av-section-label">Favorite Subjects</div>
+              <div class="av-chip-group" id="guidanceSubjects">
+                <div class="av-chip" data-value="Computer Science">Computer Science</div>
+                <div class="av-chip" data-value="Mathematics">Mathematics</div>
+                <div class="av-chip" data-value="Statistics">Statistics</div>
+                <div class="av-chip" data-value="Physics">Physics</div>
+                <div class="av-chip" data-value="Business">Business</div>
+              </div>
+
+              <div class="av-section-label">Work Preference</div>
+              <div class="av-pill-group" id="guidanceWorkPrefGroup">
+                <div class="av-pill" data-value="Remote">Remote</div>
+                <div class="av-pill" data-value="Office">Office</div>
+                <div class="av-pill" data-value="Hybrid">Hybrid</div>
+              </div>
+
+              <div class="av-section-label">Preferred Work Type</div>
+              <div class="av-pill-group" id="guidanceWorkTypeGroup">
+                <div class="av-pill" data-value="Creative">Creative</div>
+                <div class="av-pill" data-value="Technical">Technical</div>
+                <div class="av-pill" data-value="Analytical">Analytical</div>
+                <div class="av-pill" data-value="Management">Management</div>
+              </div>
+
+              <div class="av-section-label">Career Goal</div>
+              <div class="av-pill-group" id="guidanceGoalGroup">
+                <div class="av-pill" data-value="Freelancing">Freelancing</div>
+                <div class="av-pill" data-value="Job">Job</div>
+                <div class="av-pill" data-value="Startup">Startup</div>
+                <div class="av-pill" data-value="Remote Career">Remote Career</div>
+                <div class="av-pill" data-value="Government Job">Government Job</div>
+              </div>
+
+              <div class="av-section-label">Experience Level</div>
+              <div class="av-pill-group" id="guidanceExpGroup">
+                <div class="av-pill" data-value="Beginner">Beginner</div>
+                <div class="av-pill" data-value="Intermediate">Intermediate</div>
+                <div class="av-pill" data-value="Advanced">Advanced</div>
+              </div>
+
+              <button class="av-submit-btn" onclick="avRunAssessment()">Start Assessment →</button>
+            </div>
+          </div>
+
+          <!-- VIEW: Option 2 — Known Path Form -->
+          <div class="av-view" id="av-form-known">
+            <div class="av-form-card">
+              <div class="av-back-link" onclick="avShowView('av-landing')">← Back</div>
+              <h3 style="font-family:var(--font-display);color:var(--purple-900);margin:0 0 4px;">Generate Your Career Plan</h3>
+              <p style="color:var(--text-muted);font-size:13.5px;margin:0 0 8px;">Select your field and preferences.</p>
+
+              <div class="av-section-label">Career Field</div>
+              <select id="knownFieldSelect" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;background:var(--purple-50);margin-bottom:8px;">
+                <option value="">Select a field</option>
+                <option value="Web Development">Web Development</option>
+                <option value="AI & Machine Learning">AI & Machine Learning</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Cyber Security">Cyber Security</option>
+                <option value="Cloud & DevOps">Cloud & DevOps</option>
+                <option value="Mobile App Development">Mobile App Development</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+                <option value="Graphic Design">Graphic Design</option>
+                <option value="Digital Marketing">Digital Marketing</option>
+                <option value="Game Development">Game Development</option>
+              </select>
+
+              <div class="av-section-label">Current Level</div>
+              <div class="av-pill-group" id="knownLevelGroup">
+                <div class="av-pill" data-value="Beginner">Beginner</div>
+                <div class="av-pill" data-value="Intermediate">Intermediate</div>
+                <div class="av-pill" data-value="Advanced">Advanced</div>
+              </div>
+
+              <div class="av-section-label">Available Study Time</div>
+              <div class="av-pill-group" id="knownStudyGroup">
+                <div class="av-pill" data-value="1-2 Hours">1-2 Hours</div>
+                <div class="av-pill" data-value="3-4 Hours">3-4 Hours</div>
+                <div class="av-pill" data-value="5+ Hours">5+ Hours</div>
+              </div>
+
+              <div class="av-section-label">Goal Timeline</div>
+              <div class="av-pill-group" id="knownTimelineGroup">
+                <div class="av-pill" data-value="3 Months">3 Months</div>
+                <div class="av-pill" data-value="6 Months">6 Months</div>
+                <div class="av-pill" data-value="12 Months">12 Months</div>
+              </div>
+
+              <button class="av-submit-btn" onclick="avGeneratePlan()">Generate Career Plan →</button>
+            </div>
+          </div>
+
+          <!-- VIEW: Result -->
+          <div class="av-view" id="av-result">
+            <div class="av-result-hero">
+              <div class="av-result-top">
+                <div>
+                  <p class="av-result-sub">Recommended Field</p>
+                  <h2 class="av-result-field" id="avResultField"></h2>
+                </div>
+                <div class="av-ring" id="avResultRing" style="--pct:0">
+                  <span id="avResultRingPct">0%</span>
+                </div>
+              </div>
+              <div class="av-result-body">
+                <p id="avResultReason"></p>
+                <p><strong>Industry Outlook:</strong> <span id="avResultOutlook"></span></p>
+                <div class="av-alt-row" id="avResultAlts"></div>
+              </div>
+            </div>
+
+            <div style="margin-top:16px;">
+              <button class="av-submit-btn" style="background:rgba(91,47,184,0.12);color:var(--purple-700);box-shadow:none;border:1.5px solid var(--purple-200,#d4b8f7);" onclick="avResetAssessment()">
+                🔄 Redo Assessment
+              </button>
+            </div>
+
+            <div class="dash-grid" style="margin-top:24px;">
+              <div class="dash-mini-card" data-feature="roadmap" onclick="avOpenRoadmap()">
+                <div class="mini-icon">🗺️</div>
+                <h4>Roadmap Generator</h4>
+                <p>View your personalized weekly roadmap.</p>
+                <span class="mini-arrow">→</span>
+              </div>
+              <div class="dash-mini-card" data-feature="resources" onclick="avOpenResources()">
+                <div class="mini-icon">📚</div>
+                <h4>Learning Resources</h4>
+                <p>Curated docs, YouTube channels, and practice sites.</p>
+                <span class="mini-arrow">→</span>
+              </div>
+              <div class="dash-mini-card" data-feature="quiz" onclick="avOpenQuizHub()">
+                <div class="mini-icon">📝</div>
+                <h4>Weekly Quiz System</h4>
+                <p>Test your weekly progress with scored quizzes.</p>
+                <span class="mini-arrow">→</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: Roadmap -->
+          <div class="av-view" id="av-roadmap">
+            <div class="av-feature-header">
+              <div>
+                <h2>🗺️ Roadmap — <span id="roadmapFieldName"></span></h2>
+                <span class="av-duration-badge" id="roadmapDurationBadge">3-Month (8 weeks)</span>
+              </div>
+              <button class="av-submit-btn" style="margin:0;padding:10px 20px;" onclick="avShowView('av-result')">← Back</button>
+            </div>
+            <div class="av-duration-switcher">
+              <button class="av-dur-btn active" data-dur="3" onclick="avSwitchDuration('3')">📅 3-Month Plan</button>
+              <button class="av-dur-btn" data-dur="6" onclick="avSwitchDuration('6')">📅 6-Month Plan</button>
+            </div>
+            <div id="roadmapOverview" style="background:var(--purple-50); border-radius:12px; padding:16px 20px; margin:14px 0 18px; display:flex; gap:24px; flex-wrap:wrap; font-size:13px;">
+              <div><strong style="color:var(--purple-900);" id="roadmapTotalWeeks"></strong><br><span style="color:var(--text-muted);">Total Weeks</span></div>
+              <div><strong style="color:var(--purple-900);" id="roadmapCurrentWeek"></strong><br><span style="color:var(--text-muted);">You Are Here</span></div>
+              <div><strong style="color:var(--purple-900);" id="roadmapPace"></strong><br><span style="color:var(--text-muted);">Daily Pace</span></div>
+            </div>
+            <div class="av-tabs" style="margin-top:14px;">
+              <div class="av-tab active" onclick="avRoadmapTab(this,'tab-text')">Weekly Plan</div>
+              <div class="av-tab" onclick="avRoadmapTab(this,'tab-visual')">Visual Path</div>
+            </div>
+            <div id="tab-text">
+              <div id="roadmapWeekList"></div>
+            </div>
+            <div id="tab-visual" style="display:none;">
+              <div class="av-chain" id="roadmapChain"></div>
+            </div>
+          </div>
+
+          <!-- VIEW: Resources -->
+          <div class="av-view" id="av-resources">
+            <div class="av-feature-header">
+              <h2>📚 Resources — <span id="resourcesFieldName"></span></h2>
+              <button class="av-submit-btn" style="margin:0;padding:10px 20px;" onclick="avShowView('av-result')">← Back</button>
+            </div>
+            <div class="av-res-grid">
+              <div class="av-res-card">
+                <h4>📄 Documentation</h4>
+                <ul id="resDocs"></ul>
+              </div>
+              <div class="av-res-card">
+                <h4>▶️ YouTube Channels</h4>
+                <ul id="resYoutube"></ul>
+              </div>
+              <div class="av-res-card">
+                <h4>💻 Practice Platforms</h4>
+                <ul id="resPractice"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: Quiz -->
+          <div class="av-view" id="av-quiz">
+            <div class="av-feature-header">
+              <h2>📝 Quiz — <span id="quizFieldName"></span></h2>
+              <button class="av-submit-btn" style="margin:0;padding:10px 20px;" onclick="avShowView('av-result')">← Back</button>
+            </div>
+            <div>
+              <h5>Quiz System According to your Selected Monthly plan</h5>
+            </div>
+            <div class="av-quiz-week-grid" id="quizWeekGrid"></div>
+            <div id="quizArea"></div>
+          </div>
+
+        </div>
+        <!-- ==================== END PANEL 1 ==================== -->
+
+        <!-- ==================== PANEL 2: AI MENTOR ==================== -->
+        <div class="dash-panel" id="panel-mentor"></div>
+
+        <!-- ==================== PANEL 3: INTERVIEW PREPARATION ==================== -->
+        <div class="dash-panel" id="panel-interview"></div>
+
+        <!-- ==================== PANEL 4: VOICE CONFIDENCE ANALYZER ==================== -->
+        <div class="dash-panel" id="panel-voice">
+          <div class="dash-hero">
+            <h2>Voice Confidence Analyzer</h2>
+            <p>Practice mock interview answers, get your voice transcribed live, and receive an AI-style confidence, clarity, and speaking-speed analysis with personalized suggestions.</p>
+          </div>
+
+          <!-- STAGE 1: Setup -->
+          <div class="vca-stage active" id="vca-setup">
+            <div class="vca-layout">
+              <div>
+                <div class="vca-card">
+                  <h4>Select Duration</h4>
+                  <p class="vca-sub">Choose how long you want to speak.</p>
+                  <div id="vcaDurationList"></div>
+                  <div class="vca-hint">⚡ Recommended: 3-5 minutes for the best analysis.</div>
+                </div>
+              </div>
+              <div>
+                <div class="vca-card">
+                  <h4>Questions Preview</h4>
+                  <p class="vca-sub">These will be asked one at a time.</p>
+                  <div id="vcaQuestionPreview"></div>
+                  <div class="vca-q-total" id="vcaTotalTimeLabel"></div>
+                  <button class="av-submit-btn" style="width:100%; margin-top:18px;" onclick="vcaStartInterview()">Start Interview →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STAGE 2: Question + Recording -->
+          <div class="vca-stage" id="vca-question" style="display:none;">
+            <div class="vca-card">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+                <div>
+                  <span class="vca-q-tag" id="vcaQTag">Question 1 of 5</span>
+                  <h3 class="vca-q-text" id="vcaQText">Tell me about yourself.</h3>
+                </div>
+                <span class="vca-timer-pill">⏱ <span id="vcaQTimer">01:00</span></span>
+              </div>
+
+              <div class="vca-mic-stage">
+                <div class="vca-ring-wrap">
+                  <svg class="vca-ring-svg" viewBox="0 0 220 220">
+                    <defs>
+                      <linearGradient id="vcaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#5B2FB8" />
+                        <stop offset="100%" stop-color="#241047" />
+                      </linearGradient>
+                    </defs>
+                    <circle class="vca-ring-bg" cx="110" cy="110" r="100" />
+                    <circle class="vca-ring-progress" id="vcaRingProgress" cx="110" cy="110" r="100"
+                      stroke-dasharray="628" stroke-dashoffset="628" />
+                  </svg>
+                  <div class="vca-mic-center">
+                    <div class="vca-mic-icon" id="vcaMicIcon">🎙️</div>
+                    <div class="vca-mic-status" id="vcaMicStatus">Ready</div>
+                  </div>
+                </div>
+
+                <div class="vca-waveform" id="vcaWaveform" style="display:none;"></div>
+
+                <div class="vca-rec-controls">
+                  <button class="vca-btn-record" id="vcaRecordBtn" onclick="vcaToggleRecording()">● Start Recording</button>
+                </div>
+
+                <div class="vca-transcript-box">
+                  <span class="vca-live-tag">LIVE TRANSCRIPT</span>
+                  <span id="vcaTranscript">Your speech will appear here as you talk…</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STAGE 3: Analyzing -->
+          <div class="vca-stage" id="vca-analyzing" style="display:none;">
+            <div class="vca-card">
+              <div class="vca-analyzing-stage">
+                <div class="vca-scan-ring">
+                  <div class="vca-scan-center">
+                    <div class="vca-scan-pct" id="vcaScanPct">0%</div>
+                  </div>
+                </div>
+                <div class="vca-scan-status" id="vcaScanStatus">Analyzing Voice...</div>
+
+                <div class="vca-scan-checklist" id="vcaScanChecklist">
+                  <div class="vca-scan-check-item" data-step="0"><span class="vca-check-icon">○</span> Speech to Text</div>
+                  <div class="vca-scan-check-item" data-step="1"><span class="vca-check-icon">○</span> Voice Modulation</div>
+                  <div class="vca-scan-check-item" data-step="2"><span class="vca-check-icon">○</span> Confidence Score</div>
+                  <div class="vca-scan-check-item" data-step="3"><span class="vca-check-icon">○</span> Speech Clarity</div>
+                  <div class="vca-scan-check-item" data-step="4"><span class="vca-check-icon">○</span> Overall Analysis</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STAGE 4: Results -->
+          <div class="vca-stage" id="vca-results" style="display:none;">
+            <div class="vca-card">
+              <h4>Results Dashboard</h4>
+              <p class="vca-sub" id="vcaResultsSub"></p>
+              <div class="vca-results-grid" id="vcaResultsGrid"></div>
+            </div>
+
+            <div class="vca-card">
+              <h4>Personalized Suggestions</h4>
+              <div id="vcaSuggestionsList"></div>
+            </div>
+
+            <div class="vca-card">
+              <h4>Final Report</h4>
+              <div class="vca-report-section">
+                <h5>Overall Performance Summary</h5>
+                <p id="vcaReportSummary" style="font-size:13.5px; color:var(--text-muted); line-height:1.6;"></p>
+              </div>
+              <div class="vca-report-section">
+                <h5>Strengths</h5>
+                <div class="vca-pill-list" id="vcaStrengthsList"></div>
+              </div>
+              <div class="vca-report-section">
+                <h5>Areas for Improvement</h5>
+                <div class="vca-pill-list" id="vcaWeaknessesList"></div>
+              </div>
+              <div class="vca-report-section">
+                <h5>Recommended Practice Activities</h5>
+                <div id="vcaPracticeList"></div>
+              </div>
+
+              <button class="av-submit-btn" onclick="vcaRestart()">🔁 Practice Again</button>
+            </div>
+          </div>
+
+        </div>
+        <!-- ==================== END PANEL 4 ==================== -->
+
+      </div>
+    </div>
+  </div>
+
+<script src="js/api.js"></script>
+<script src="js/assessment.js"></script>
+<script src="js/mentor-new.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/interview.js"></script>
+<script>
+async function checkAuth() {
+  const result = await apiGet("/me");
+  if (!result.success) window.location.href = "index.html";
+}
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await apiPost("/logout", {});
+  window.location.href = "index.html";
+});
+
+document.querySelectorAll(".dash-nav-item").forEach((item) => {
+  item.addEventListener("click", () => {
+    document.querySelectorAll(".dash-nav-item").forEach((i) => i.classList.remove("active"));
+    document.querySelectorAll(".dash-panel").forEach((p) => p.classList.remove("active"));
+    item.classList.add("active");
+    document.getElementById("panel-" + item.dataset.panel).classList.add("active");
+  });
+});
+
+window.avRoadmapTab = function(el, tabId) {
+  document.querySelectorAll('.av-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-text').style.display = tabId === 'tab-text' ? 'block' : 'none';
+  document.getElementById('tab-visual').style.display = tabId === 'tab-visual' ? 'block' : 'none';
+};
+
+window.avResetAssessment = function() {
+  localStorage.removeItem("cp_assessment");
+  location.reload();
+};
+
+checkAuth();
+</script>
+</body>
+</html> 

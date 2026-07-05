@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Verify Email · Career Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="mobile-topbar"><span class="dot"></span> CareerPath</div>
+    <div class="auth-side">
+      <div class="brand-mark"><span class="dot"></span> CareerPath</div>
+      <h1>Almost there.</h1>
+      <p class="tagline">We're confirming your email to keep your account secure.</p>
+    </div>
+
+    <div class="auth-form-side">
+      <div class="auth-card" style="text-align:center;">
+        <h2 id="title">Verifying your email...</h2>
+        <p class="sub" id="subText">Please wait a moment.</p>
+
+        <div class="alert" id="alertBox"></div>
+
+        <button class="btn-primary" id="goLoginBtn" style="display:none;" onclick="window.location.href='index.html'">
+          Go to Log In
+        </button>
+
+        <div id="resendBox" style="display:none; margin-top:16px;">
+          <input type="email" id="resendEmail" placeholder="Your email address" style="width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:8px; margin-bottom:10px;" />
+          <button class="btn-secondary" id="resendBtn">Resend Verification Email</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="js/api.js"></script>
+<script>
+async function verify() {
+  const token = getQueryParam("token");
+  if (!token) {
+    document.getElementById("title").textContent = "Verification link missing";
+    document.getElementById("subText").textContent = "Please use the link sent to your email, or resend it below.";
+    document.getElementById("resendBox").style.display = "block";
+    return;
+  }
+
+  const result = await apiPost("/verify-email", { token });
+
+  if (result.success) {
+    document.getElementById("title").textContent = "Email verified!";
+    document.getElementById("subText").textContent = result.message;
+    document.getElementById("goLoginBtn").style.display = "block";
+  } else {
+    document.getElementById("title").textContent = "Verification failed";
+    document.getElementById("subText").textContent = result.message;
+    document.getElementById("resendBox").style.display = "block";
+  }
+}
+
+document.getElementById("resendBtn").addEventListener("click", async () => {
+  const email = document.getElementById("resendEmail").value.trim();
+  if (!email) return;
+  const result = await apiPost("/resend-verification", { email });
+  showAlert("alertBox", result.message, "success");
+});
+
+verify();
+</script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+/* frontend/css/mentor.css — AI Mentor clean UI */
+
+/* ── SHELL ─────────────────────────────────────────────────────── */
+.mn-shell {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 65px);
+  max-height: 820px;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* ── HEADER ─────────────────────────────────────────────────────── */
+.mn-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1.5px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.mn-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mn-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--purple-600), var(--purple-900));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.mn-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--purple-900);
+  margin-bottom: 2px;
+}
+
+.mn-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mn-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  display: inline-block;
+  animation: mn-pulse 2s ease-in-out infinite;
+}
+
+@keyframes mn-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.3); }
+}
+
+.mn-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.mn-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  color: var(--text-muted);
+}
+
+.mn-icon-btn:hover {
+  border-color: var(--purple-500);
+  color: var(--purple-700);
+  background: var(--purple-50);
+}
+
+.mn-icon-btn.mn-danger:hover {
+  border-color: var(--error);
+  color: var(--error);
+  background: var(--error-bg);
+}
+
+/* ── MODE PILLS ──────────────────────────────────────────────────── */
+.mn-modes {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  border-bottom: 1.5px solid var(--border);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+}
+
+.mn-modes::-webkit-scrollbar { display: none; }
+
+.mn-mode-pill {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.mn-mode-pill:hover {
+  border-color: var(--purple-400);
+  color: var(--purple-700);
+  background: var(--purple-50);
+}
+
+.mn-mode-pill.mn-mode-active {
+  background: var(--purple-600);
+  color: var(--white);
+  border-color: var(--purple-600);
+  box-shadow: 0 4px 12px rgba(91, 47, 184, 0.25);
+}
+
+/* ── MESSAGES ────────────────────────────────────────────────────── */
+.mn-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+}
+
+.mn-messages::-webkit-scrollbar { width: 4px; }
+.mn-messages::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.mn-msg {
+  display: flex;
+  gap: 10px;
+  animation: mn-slide-in 0.22s ease;
+}
+
+@keyframes mn-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mn-msg-user {
+  flex-direction: row-reverse;
+}
+
+.mn-ai-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--purple-600), var(--purple-900));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+
+.mn-bubble {
+  max-width: 74%;
+  padding: 11px 15px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.mn-bubble-ai {
+  background: var(--purple-50);
+  border: 1.5px solid var(--purple-100);
+  color: var(--text-dark);
+  border-radius: 4px 14px 14px 14px;
+}
+
+.mn-bubble-user {
+  background: linear-gradient(135deg, var(--purple-600), var(--purple-700));
+  color: var(--white);
+  border-radius: 14px 4px 14px 14px;
+}
+
+.mn-bubble ul {
+  margin: 6px 0 4px;
+  padding-left: 18px;
+}
+
+.mn-bubble li {
+  margin-bottom: 4px;
+}
+
+.mn-bubble strong {
+  color: var(--purple-900);
+}
+
+.mn-bubble-user strong {
+  color: var(--white);
+}
+
+/* ── TYPING INDICATOR ────────────────────────────────────────────── */
+.mn-typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 16px;
+}
+
+.mn-typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--purple-400);
+  display: inline-block;
+  animation: mn-bounce 1.1s infinite ease-in-out;
+}
+
+.mn-typing span:nth-child(2) { animation-delay: 0.15s; }
+.mn-typing span:nth-child(3) { animation-delay: 0.3s;  }
+
+@keyframes mn-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%            { transform: translateY(-7px); }
+}
+
+/* ── QUICK PROMPTS ───────────────────────────────────────────────── */
+.mn-quick-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 20px 12px;
+  flex-shrink: 0;
+}
+
+.mn-quick-btn {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 12.5px;
+  color: var(--purple-700);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.mn-quick-btn:hover {
+  border-color: var(--purple-500);
+  background: var(--purple-50);
+  transform: translateY(-1px);
+}
+
+/* ── INPUT ───────────────────────────────────────────────────────── */
+.mn-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 14px 20px 16px;
+  border-top: 1.5px solid var(--border);
+  flex-shrink: 0;
+  background: var(--white);
+}
+
+.mn-textarea {
+  flex: 1;
+  resize: none;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--purple-50);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  line-height: 1.5;
+  max-height: 130px;
+  overflow-y: auto;
+}
+
+.mn-textarea:focus {
+  border-color: var(--purple-500);
+  box-shadow: 0 0 0 3px rgba(91, 47, 184, 0.1);
+  background: var(--white);
+}
+
+.mn-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.mn-send-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--purple-600), var(--purple-900));
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+
+.mn-send-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 16px rgba(91, 47, 184, 0.35);
+}
+
+.mn-send-btn:disabled {
+  background: var(--border);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .mn-shell {
+    height: auto;
+    max-height: none;
+    border-radius: 0;
+    min-height: calc(100vh - 120px);
+  }
+
+  .mn-bubble {
+    max-width: 86%;
+  }
+
+  .mn-header {
+    padding: 12px 14px;
+  }
+
+  .mn-messages {
+    padding: 14px;
+  }
+
+  .mn-input-row {
+    padding: 10px 14px 12px;
+  }
+
+  .mn-quick-prompts {
+    padding: 0 14px 10px;
+  }
+
+  .mn-modes {
+    padding: 10px 14px;
+  }
+}
